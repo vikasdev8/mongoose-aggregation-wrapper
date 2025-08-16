@@ -1,6 +1,6 @@
 {
   "name": "mongoose-aggregation-wrapper",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A TypeScript wrapper for debugging Mongoose aggregation operations stage by stage",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -26,7 +26,7 @@
     "test": "jest"
   },
   "peerDependencies": {
-    "mongoose": "^7.0.0"
+    "mongoose": ">=7.0.0"
   },
   "keywords": ["mongoose", "aggregation", "typescript"],
   "license": "MIT",
