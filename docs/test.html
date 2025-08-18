@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test - Mongoose Aggregation Wrapper</title>
+    <meta name="google-site-verification" content="ebf05897323e6556" />
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 40px; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+        }
+        .container { 
+            max-width: 800px; 
+            margin: 0 auto; 
+            padding: 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+        }
+        .success { 
+            background: #10b981; 
+            padding: 15px; 
+            border-radius: 8px; 
+            margin: 20px 0;
+        }
+        .code { 
+            background: rgba(0,0,0,0.3); 
+            padding: 15px; 
+            border-radius: 8px; 
+            font-family: monospace;
+            margin: 15px 0;
+        }
+        a { color: #fbbf24; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Mongoose Aggregation Wrapper</h1>
+        <div class="success">
+            ✅ <strong>GitHub Pages is working!</strong> If you can see this page, your deployment is successful.
+        </div>
+        
+        <h2>📦 Installation</h2>
+        <div class="code">npm install mongoose-aggregation-wrapper</div>
+        
+        <h2>🎯 Quick Example</h2>
+        <div class="code">
+import Wrapper from 'mongoose-aggregation-wrapper';
+
+const results = await Wrapper(UserModel, [
+  { $match: { active: true } },
+  { $sort: { createdAt: -1 } },
+  { $limit: 10 }
+]);
+        </div>
+        
+        <h2>🔗 Links</h2>
+        <p>
+            <a href="index.html">📄 Full Documentation</a> | 
+            <a href="https://www.npmjs.com/package/mongoose-aggregation-wrapper" target="_blank">📦 npm Package</a> | 
+            <a href="https://github.com/vikasdev8/mongoose-aggregation-wrapper" target="_blank">💻 GitHub</a>
+        </p>
+        
+        <h2>☕ Support the Project</h2>
+        <p>If this package helped you debug your aggregation pipelines, consider <a href="https://paypal.me/VikasVermaDelhi" target="_blank">buying me a coffee</a>!</p>
+        
+        <footer style="margin-top: 40px; text-align: center; opacity: 0.8;">
+            <p>Made with ❤️ by <a href="https://github.com/vikasdev8">Vikas Verma</a></p>
+        </footer>
+    </div>
+</body>
+</html>
