@@ -4,7 +4,7 @@ This guide will help you deploy the package website to GitHub Pages and optimize
 
 ## 📋 Quick Setup Checklist
 
-### ✅ Step 1: Enable GitHub Pages
+### ✅ Step 1: Enable GitHub Pages (Manual Setup)
 1. Go to your GitHub repository: `https://github.com/vikasdev8/mongoose-aggregation-wrapper`
 2. Click on **Settings** tab
 3. Scroll down to **Pages** section in the left sidebar
@@ -12,6 +12,8 @@ This guide will help you deploy the package website to GitHub Pages and optimize
 5. Choose **main** branch and **/docs** folder
 6. Click **Save**
 7. Your website will be available at: `https://vikasdev8.github.io/mongoose-aggregation-wrapper`
+
+**Note:** GitHub Actions workflow was removed due to Personal Access Token permissions. GitHub Pages will automatically deploy from the `/docs` folder when you push changes to the main branch.
 
 ### ✅ Step 2: SEO Optimization (Already Done)
 - ✅ Enhanced `package.json` with SEO-friendly keywords
