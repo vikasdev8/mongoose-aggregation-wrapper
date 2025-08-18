@@ -31,7 +31,7 @@ npm install mongoose-aggregation-wrapper
 ### Prerequisites
 
 - Node.js >= 14
-- Mongoose >= 6.0
+- Mongoose >= 7.0 (Compatible with Mongoose v7, v8, and future versions)
 - TypeScript (if using TypeScript)
 
 ---

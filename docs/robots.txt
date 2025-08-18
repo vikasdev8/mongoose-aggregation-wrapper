@@ -1,0 +1,16 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://vikasdev8.github.io/mongoose-aggregation-wrapper/sitemap.xml
+
+# Specific rules for search engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# Disallow certain file types if needed
+# Disallow: *.json
+# Disallow: *.md

@@ -1,7 +1,7 @@
 {
   "name": "mongoose-aggregation-wrapper",
   "version": "0.1.1",
-  "description": "A TypeScript wrapper for debugging Mongoose aggregation operations stage by stage",
+  "description": "🚀 TypeScript wrapper for debugging MongoDB/Mongoose aggregation pipelines stage-by-stage. Debug complex aggregations, optimize performance, and understand data flow with detailed execution timing and sample results.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": ["dist"],
@@ -16,7 +16,7 @@
   "bugs": {
     "url": "https://github.com/vikasdev8/mongoose-aggregation-wrapper/issues"
   },
-  "homepage": "https://github.com/vikasdev8/mongoose-aggregation-wrapper#readme",
+  "homepage": "https://vikasdev8.github.io/mongoose-aggregation-wrapper",
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "clean": "rimraf dist",
@@ -28,7 +28,28 @@
   "peerDependencies": {
     "mongoose": ">=7.0.0"
   },
-  "keywords": ["mongoose", "aggregation", "typescript"],
+  "keywords": [
+    "mongoose",
+    "aggregation",
+    "typescript",
+    "mongodb",
+    "pipeline",
+    "debug",
+    "aggregation-pipeline",
+    "database",
+    "query",
+    "mongo",
+    "node",
+    "nodejs",
+    "wrapper",
+    "stage-by-stage",
+    "debugging",
+    "performance",
+    "optimization",
+    "data-analysis",
+    "aggregation-framework",
+    "mongoose-plugin"
+  ],
   "license": "MIT",
   "devDependencies": {
     "typescript": "^5.0.0",

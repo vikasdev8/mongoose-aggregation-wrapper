@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Meta Tags -->
+    <title>Mongoose Aggregation Wrapper - Debug MongoDB Pipelines Stage by Stage</title>
+    <meta name="description" content="🚀 TypeScript wrapper for debugging MongoDB/Mongoose aggregation pipelines stage-by-stage. Debug complex aggregations, optimize performance, and understand data flow with detailed execution timing and sample results.">
+    <meta name="keywords" content="mongoose, aggregation, typescript, mongodb, pipeline, debug, aggregation-pipeline, database, query, mongo, node, nodejs, wrapper, stage-by-stage, debugging, performance, optimization, data-analysis">
+    <meta name="author" content="Vikas Verma">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="English">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Mongoose Aggregation Wrapper - Debug MongoDB Pipelines Stage by Stage">
+    <meta property="og:description" content="🚀 TypeScript wrapper for debugging MongoDB/Mongoose aggregation pipelines stage-by-stage. Debug complex aggregations, optimize performance, and understand data flow with detailed execution timing and sample results.">
+    <meta property="og:image" content="https://vikasdev8.github.io/mongoose-aggregation-wrapper/assets/og-image.png">
+    <meta property="og:url" content="https://vikasdev8.github.io/mongoose-aggregation-wrapper">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Mongoose Aggregation Wrapper">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Mongoose Aggregation Wrapper - Debug MongoDB Pipelines">
+    <meta name="twitter:description" content="🚀 TypeScript wrapper for debugging MongoDB/Mongoose aggregation pipelines stage-by-stage. Debug complex aggregations, optimize performance.">
+    <meta name="twitter:image" content="https://vikasdev8.github.io/mongoose-aggregation-wrapper/assets/og-image.png">
+    <meta name="twitter:creator" content="@vikasdev8">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://vikasdev8.github.io/mongoose-aggregation-wrapper">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="./assets/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="./assets/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./assets/favicon-16x16.png">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Mongoose Aggregation Wrapper",
+      "description": "TypeScript wrapper for debugging MongoDB/Mongoose aggregation pipelines stage-by-stage",
+      "url": "https://vikasdev8.github.io/mongoose-aggregation-wrapper",
+      "downloadUrl": "https://www.npmjs.com/package/mongoose-aggregation-wrapper",
+      "author": {
+        "@type": "Person",
+        "name": "Vikas Verma",
+        "url": "https://github.com/vikasdev8"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Vikas Verma"
+      },
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Cross-platform",
+      "programmingLanguage": "TypeScript",
+      "license": "https://opensource.org/licenses/MIT",
+      "codeRepository": "https://github.com/vikasdev8/mongoose-aggregation-wrapper"
+    }
+    </script>
+
+    <!-- CSS Styles -->
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --success-color: #059669;
+            --warning-color: #d97706;
+            --danger-color: #dc2626;
+            --dark-color: #1f2937;
+            --light-color: #f8fafc;
+            --border-color: #e5e7eb;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background-color: var(--light-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .badges {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            text-decoration: none;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .badge:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 2rem;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .btn-primary {
+            background: white;
+            color: var(--primary-color);
+        }
+
+        .btn-primary:hover {
+            background: var(--light-color);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border-color: white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: var(--primary-color);
+        }
+
+        /* Navigation */
+        .nav {
+            background: white;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: center;
+            padding: 1rem 0;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* Content Sections */
+        .section {
+            padding: 4rem 0;
+        }
+
+        .section:nth-child(even) {
+            background: white;
+        }
+
+        .section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            color: var(--text-primary);
+        }
+
+        .section h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .section p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+        }
+
+        /* Code Examples */
+        .code-example {
+            background: var(--dark-color);
+            color: #e5e7eb;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+
+        .code-example .keyword {
+            color: #60a5fa;
+        }
+
+        .code-example .string {
+            color: #34d399;
+        }
+
+        .code-example .comment {
+            color: #9ca3af;
+        }
+
+        /* Installation Section */
+        .install-section {
+            text-align: center;
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            border-radius: 1rem;
+            padding: 3rem;
+            margin: 2rem 0;
+        }
+
+        .install-command {
+            background: var(--dark-color);
+            color: var(--success-color);
+            padding: 1rem 2rem;
+            border-radius: 0.5rem;
+            font-family: monospace;
+            font-size: 1.125rem;
+            margin: 1rem 0;
+            display: inline-block;
+        }
+
+        /* Stats */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 2rem;
+            background: white;
+            border-radius: 0.75rem;
+            box-shadow: var(--shadow);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            display: block;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark-color);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .header p {
+                font-size: 1rem;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                text-align: center;
+                gap: 0.5rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        /* Copy button for code examples */
+        .code-container {
+            position: relative;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            font-size: 0.75rem;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .copy-btn:hover {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <h1>🚀 Mongoose Aggregation Wrapper</h1>
+            <p>Debug MongoDB aggregation pipelines stage by stage with TypeScript support</p>
+            
+            <div class="badges">
+                <a href="https://www.npmjs.com/package/mongoose-aggregation-wrapper" class="badge" target="_blank" rel="noopener">
+                    📦 npm package
+                </a>
+                <a href="https://github.com/vikasdev8/mongoose-aggregation-wrapper" class="badge" target="_blank" rel="noopener">
+                    ⭐ GitHub
+                </a>
+                <a href="#" class="badge">
+                    📄 MIT License
+                </a>
+                <a href="#" class="badge">
+                    🔧 TypeScript
+                </a>
+            </div>
+
+            <div class="cta-buttons">
+                <a href="#installation" class="btn btn-primary">Get Started</a>
+                <a href="https://github.com/vikasdev8/mongoose-aggregation-wrapper" class="btn btn-secondary" target="_blank" rel="noopener">
+                    View on GitHub
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="container">
+            <div class="nav-container">
+                <ul class="nav-links">
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#installation">Installation</a></li>
+                    <li><a href="#usage">Usage</a></li>
+                    <li><a href="#examples">Examples</a></li>
+                    <li><a href="#api">API</a></li>
+                    <li><a href="https://github.com/vikasdev8/mongoose-aggregation-wrapper" target="_blank" rel="noopener">GitHub</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Why Use This Package -->
+    <section class="section" id="why">
+        <div class="container">
+            <h2>🎯 Why Use This Package?</h2>
+            <p style="text-align: center; font-size: 1.125rem; max-width: 800px; margin: 0 auto;">
+                MongoDB aggregation pipelines can be complex and hard to debug. This package helps you understand exactly what happens at each stage of your pipeline.
+            </p>
+
+            <div class="features-grid">
+                <div class="feature-card animate-fade-in">
+                    <span class="feature-icon">🔍</span>
+                    <h3>Debug Complex Pipelines</h3>
+                    <p>See exactly what each stage produces with detailed execution timing and sample results.</p>
+                </div>
+                <div class="feature-card animate-fade-in">
+                    <span class="feature-icon">⚡</span>
+                    <h3>Optimize Performance</h3>
+                    <p>Identify slow stages and bottlenecks in your aggregation pipelines.</p>
+                </div>
+                <div class="feature-card animate-fade-in">
+                    <span class="feature-icon">✅</span>
+                    <h3>Validate Logic</h3>
+                    <p>Ensure each stage works as expected before moving to the next.</p>
+                </div>
+                <div class="feature-card animate-fade-in">
+                    <span class="feature-icon">📚</span>
+                    <h3>Learn Aggregation</h3>
+                    <p>Understand how data flows through your pipeline step by step.</p>
+                </div>
+                <div class="feature-card animate-fade-in">
+                    <span class="feature-icon">🔷</span>
+                    <h3>TypeScript Support</h3>
+                    <p>Full type safety and IntelliSense for better development experience.</p>
+                </div>
+                <div class="feature-card animate-fade-in">
+                    <span class="feature-icon">🛠️</span>
+                    <h3>Zero Configuration</h3>
+                    <p>Works with your existing Mongoose models without any setup.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Installation -->
+    <section class="section" id="installation">
+        <div class="container">
+            <h2>📦 Installation</h2>
+            
+            <div class="install-section">
+                <h3>Install via npm</h3>
+                <div class="code-container">
+                    <div class="install-command">npm install mongoose-aggregation-wrapper</div>
+                    <button class="copy-btn" onclick="copyToClipboard('npm install mongoose-aggregation-wrapper')">Copy</button>
+                </div>
+                
+                <p><strong>Prerequisites:</strong> Node.js ≥ 14, Mongoose ≥ 7.0</p>
+            </div>
+
+            <div class="stats">
+                <div class="stat-card">
+                    <span class="stat-number">7.0+</span>
+                    <div class="stat-label">Mongoose Version</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">14+</span>
+                    <div class="stat-label">Node.js Version</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">0kb</span>
+                    <div class="stat-label">Runtime Dependencies</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">100%</span>
+                    <div class="stat-label">TypeScript</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Start -->
+    <section class="section" id="usage">
+        <div class="container">
+            <h2>🚀 Quick Start</h2>
+            
+            <h3>Basic Usage</h3>
+            <div class="code-container">
+                <pre class="code-example">
+<span class="comment">// ES6/TypeScript</span>
+<span class="keyword">import</span> Wrapper <span class="keyword">from</span> <span class="string">'mongoose-aggregation-wrapper'</span>;
+
+<span class="comment">// CommonJS</span>
+<span class="keyword">const</span> Wrapper = <span class="keyword">require</span>(<span class="string">'mongoose-aggregation-wrapper'</span>).default;
+
+<span class="comment">// Use with your existing Mongoose model</span>
+<span class="keyword">const</span> results = <span class="keyword">await</span> Wrapper(YourModel, pipeline);
+                </pre>
+                <button class="copy-btn" onclick="copyCodeExample(this)">Copy</button>
+            </div>
+
+            <h3>Simple Example</h3>
+            <div class="code-container">
+                <pre class="code-example">
+<span class="keyword">import</span> Wrapper <span class="keyword">from</span> <span class="string">'mongoose-aggregation-wrapper'</span>;
+
+<span class="keyword">async function</span> getUsersWithPosts(UserModel) {
+  <span class="keyword">const</span> pipeline = [
+    { $match: { active: <span class="keyword">true</span> } },
+    { $sort: { createdAt: -1 } },
+    { $limit: 10 },
+    {
+      $lookup: {
+        from: <span class="string">'posts'</span>,
+        localField: <span class="string">'_id'</span>,
+        foreignField: <span class="string">'userId'</span>,
+        as: <span class="string">'posts'</span>
+      }
+    }
+  ];
+
+  <span class="comment">// This will execute each stage and show debug info</span>
+  <span class="keyword">const</span> results = <span class="keyword">await</span> Wrapper(UserModel, pipeline);
+  <span class="keyword">return</span> results;
+}
+                </pre>
+                <button class="copy-btn" onclick="copyCodeExample(this)">Copy</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- API Documentation -->
+    <section class="section" id="api">
+        <div class="container">
+            <h2>📚 API Documentation</h2>
+            
+            <h3>Function Signature</h3>
+            <div class="code-container">
+                <pre class="code-example">
+Wrapper&lt;T = any&gt;(
+  model: mongoose.Model,           <span class="comment">// Your Mongoose model</span>
+  pipeline: PipelineStage[],       <span class="comment">// Array of aggregation stages</span>
+  options?: WrapperOptions         <span class="comment">// Optional configuration</span>
+): Promise&lt;T[]&gt;
+                </pre>
+                <button class="copy-btn" onclick="copyCodeExample(this)">Copy</button>
+            </div>
+
+            <h3>Options Interface</h3>
+            <div class="code-container">
+                <pre class="code-example">
+<span class="keyword">interface</span> WrapperOptions {
+  allowDiskUse?: <span class="keyword">boolean</span>;    <span class="comment">// MongoDB allowDiskUse option (default: false)</span>
+  debug?: <span class="keyword">boolean</span>;           <span class="comment">// Enable step-by-step execution (default: true)</span>
+  logResults?: <span class="keyword">boolean</span>;      <span class="comment">// Log sample results after each stage (default: true)</span>
+}
+                </pre>
+                <button class="copy-btn" onclick="copyCodeExample(this)">Copy</button>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>debug: boolean</h3>
+                    <p><strong>Default:</strong> true</p>
+                    <p>When true, executes pipeline stage by stage. When false, executes full pipeline at once.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>logResults: boolean</h3>
+                    <p><strong>Default:</strong> true</p>
+                    <p>When true, shows sample documents after each stage execution.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>allowDiskUse: boolean</h3>
+                    <p><strong>Default:</strong> false</p>
+                    <p>MongoDB option for handling large datasets that exceed memory limits.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Advanced Examples -->
+    <section class="section" id="examples">
+        <div class="container">
+            <h2>🔧 Advanced Examples</h2>
+            
+            <h3>E-commerce Product Aggregation</h3>
+            <div class="code-container">
+                <pre class="code-example">
+<span class="keyword">const</span> pipeline = [
+  <span class="comment">// Stage 1: Filter active products</span>
+  { $match: { status: <span class="string">'active'</span>, deleted: <span class="keyword">false</span> } },
+  
+  <span class="comment">// Stage 2: Sort by popularity</span>
+  { $sort: { popularity: -1, createdAt: -1 } },
+  
+  <span class="comment">// Stage 3: Pagination</span>
+  { $skip: 0 },
+  { $limit: 20 },
+  
+  <span class="comment">// Stage 4: Lookup category details</span>
+  {
+    $lookup: {
+      from: <span class="string">'categories'</span>,
+      localField: <span class="string">'categoryId'</span>,
+      foreignField: <span class="string">'_id'</span>,
+      as: <span class="string">'category'</span>
+    }
+  },
+  
+  <span class="comment">// Stage 5: Calculate average rating</span>
+  {
+    $addFields: {
+      averageRating: { $avg: <span class="string">'$reviews.rating'</span> },
+      reviewCount: { $size: <span class="string">'$reviews'</span> }
+    }
+  }
+];
+
+<span class="keyword">const</span> products = <span class="keyword">await</span> Wrapper(ProductModel, pipeline, {
+  debug: <span class="keyword">true</span>,
+  logResults: <span class="keyword">true</span>,
+  allowDiskUse: <span class="keyword">true</span>
+});
+                </pre>
+                <button class="copy-btn" onclick="copyCodeExample(this)">Copy</button>
+            </div>
+
+            <h3>Production Mode (No Debug)</h3>
+            <div class="code-container">
+                <pre class="code-example">
+<span class="comment">// For production - execute full pipeline without debug info</span>
+<span class="keyword">const</span> results = <span class="keyword">await</span> Wrapper(Model, pipeline, {
+  debug: process.env.NODE_ENV === <span class="string">'development'</span>,
+  logResults: process.env.NODE_ENV === <span class="string">'development'</span>,
+  allowDiskUse: <span class="keyword">true</span>
+});
+                </pre>
+                <button class="copy-btn" onclick="copyCodeExample(this)">Copy</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>
+                Created with ❤️ by 
+                <a href="https://github.com/vikasdev8" target="_blank" rel="noopener">Vikas Verma</a>
+            </p>
+            <p>
+                <a href="https://github.com/vikasdev8/mongoose-aggregation-wrapper" target="_blank" rel="noopener">GitHub</a> • 
+                <a href="https://www.npmjs.com/package/mongoose-aggregation-wrapper" target="_blank" rel="noopener">npm</a> • 
+                <a href="https://github.com/vikasdev8/mongoose-aggregation-wrapper/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Copy to clipboard function
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(function() {
+                // Show success feedback
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = 'Copied!';
+                btn.style.background = '#059669';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = 'var(--primary-color)';
+                }, 2000);
+            }).catch(function(err) {
+                console.error('Could not copy text: ', err);
+            });
+        }
+
+        // Copy code example
+        function copyCodeExample(btn) {
+            const codeBlock = btn.previousElementSibling;
+            const text = codeBlock.textContent;
+            copyToClipboard(text);
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-fade-in');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all feature cards
+        document.querySelectorAll('.feature-card').forEach(card => {
+            observer.observe(card);
+        });
+
+        // Add loading states and error handling
+        window.addEventListener('load', () => {
+            console.log('🚀 Mongoose Aggregation Wrapper website loaded successfully!');
+        });
+
+        // SEO and Analytics tracking (you can add Google Analytics here)
+        if (typeof gtag !== 'undefined') {
+            gtag('config', 'GA_MEASUREMENT_ID', {
+                page_title: 'Mongoose Aggregation Wrapper',
+                page_location: window.location.href
+            });
+        }
+    </script>
+
+    <!-- Google Analytics (uncomment and replace with your tracking ID) -->
+    <!--
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'GA_MEASUREMENT_ID');
+    </script>
+    -->
+</body>
+</html>
