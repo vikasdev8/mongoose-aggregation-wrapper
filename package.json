@@ -1,6 +1,6 @@
 {
   "name": "mongoose-aggregation-wrapper",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "🚀 TypeScript wrapper for debugging MongoDB/Mongoose aggregation pipelines stage-by-stage. Debug complex aggregations, optimize performance, and understand data flow with detailed execution timing and sample results.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
