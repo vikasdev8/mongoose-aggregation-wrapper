@@ -17,6 +17,10 @@
     "url": "https://github.com/vikasdev8/mongoose-aggregation-wrapper/issues"
   },
   "homepage": "https://vikasdev8.github.io/mongoose-aggregation-wrapper",
+  "funding": {
+    "type": "individual",
+    "url": "https://paypal.me/VikasVermaDelhi"
+  },
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "clean": "rimraf dist",

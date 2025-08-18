@@ -557,6 +557,21 @@ If you have any questions or need help, please:
 
 If this package helped you debug your aggregation pipelines, please give it a ⭐ on [GitHub](https://github.com/vikasdev8/mongoose-aggregation-wrapper)!
 
+### ☕ **Buy me a coffee**
+
+If this package saved you time and helped you debug complex aggregation pipelines, consider supporting the project:
+
+[![PayPal](https://img.shields.io/badge/PayPal-Buy%20me%20a%20coffee-blue?style=for-the-badge&logo=paypal)](https://paypal.me/VikasVermaDelhi)
+
+**Other ways to support:**
+- ⭐ Star the repository on GitHub
+- 🐛 Report bugs and suggest features  
+- 📢 Share with your developer friends
+- 💻 Contribute code improvements
+- 📝 Write about it in your blog
+
+Your support helps maintain and improve this project! 💝
+
 ---
 
 **Happy Debugging! 🚀**
